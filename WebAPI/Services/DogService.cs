@@ -9,10 +9,12 @@ namespace WebAPI.Services
     public class DogService : ServiceBase, IDogService
     {
         private readonly ISkillService _skillService;
+
         public DogService(CynologistPlusContext context, ISkillService skillService) : base(context)
         {
             _skillService = skillService;
         }
+
         public async Task<CreationResult> AddDog(Dog dog)
         {
             if (dog.ClientId == null)
@@ -39,7 +41,7 @@ namespace WebAPI.Services
             if (!isDogExists && !isSkillExists)
                 return CreationResult.IncorrectRefference;
             _context.DogSkills.Add(dogSkill);
-            DogSkillsLog dogSkillsLogItem = _skillService.CreateDogSkillToLogItem(dogSkill);
+            DogSkillsLog dogSkillsLogItem = _skillService.CreateDogSkillLogItem(dogSkill);
             _context.DogSkillsLogs.Add(dogSkillsLogItem);
             await _context.SaveChangesAsync();
             return CreationResult.Success;
@@ -50,7 +52,7 @@ namespace WebAPI.Services
             var foundDogSkill = await _context.DogSkills.FirstOrDefaultAsync(e => e.SkillId == newDogSkill.SkillId && e.DogId == newDogSkill.DogId);
             if (foundDogSkill == null)
                 return ModifyResult.IncorrectRefference;
-            DogSkillsLog dogSkillsLogItem = _skillService.CreateDogSkillToLogItem(newDogSkill);
+            DogSkillsLog dogSkillsLogItem = _skillService.CreateDogSkillLogItem(newDogSkill);
             foundDogSkill.Value = newDogSkill.Value;
             _context.DogSkillsLogs.Add(dogSkillsLogItem);
             await _context.SaveChangesAsync();

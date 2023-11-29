@@ -1,11 +1,12 @@
-﻿using WebAPI.Models;
+﻿using WebAPI.DTO;
+using WebAPI.Models;
 using WebAPI.Others.GlobalEnums;
 
 namespace WebAPI.DI
 {
     public interface IOrderService
     {
-        public Task<CreationResult> CreateNewOrder(Order order);
+        public Task<CreationResult> CreateNewOrder(CreateOrderModel order);
 
         public Task<DeletingResult> DeletingOrder(int orderId);
 

@@ -22,7 +22,7 @@ namespace WebAPI.Services
             return ModifyResult.Success;
         }
 
-        public DogSkillsLog CreateDogSkillToLogItem(DogSkill dogSkill)
+        public DogSkillsLog CreateDogSkillLogItem(DogSkill dogSkill)
         {
             DogSkillsLog dogSkillsLog = new DogSkillsLog();
             dogSkillsLog.SkillId = dogSkill.SkillId;

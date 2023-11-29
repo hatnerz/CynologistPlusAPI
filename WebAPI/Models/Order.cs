@@ -11,6 +11,8 @@ public partial class Order
 
     public decimal? Price { get; set; }
 
+    public string? Currency { get; set; }
+
     public string? Comment { get; set; }
 
     public bool? IsPaid { get; set; }
@@ -19,7 +21,7 @@ public partial class Order
 
     public bool? Approved { get; set; }
 
-    public int DogId { get; set; }
+    public int? DogId { get; set; }
 
     public int? DogTrainingCenterId { get; set; }
 

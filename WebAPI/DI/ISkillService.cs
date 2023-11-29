@@ -9,6 +9,6 @@ namespace WebAPI.DI
         public Task<ModifyResult> ChangeSkill(Skill skill);
         public Task<DeletingResult> DeleteSkill(int skillId);
 
-        public DogSkillsLog CreateDogSkillToLogItem(DogSkill dogSkill);
+        public DogSkillsLog CreateDogSkillLogItem(DogSkill dogSkill);
     }
 }

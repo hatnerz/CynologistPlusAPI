@@ -2,8 +2,10 @@
 {
     public interface IDbControlService
     {
-        Task<bool> CreateDbBackup(string backupName);
+        bool CreateDbBackup();
 
-        Task<bool> RestoreDbFromBackup(string backupName);
+        bool RestoreDbFromLastBackup();
+
+        DateTime? GetLastBackupDate();
     }
 }

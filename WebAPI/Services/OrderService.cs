@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.SqlServer.Management.Smo;
 using WebAPI.DataBase;
 using WebAPI.DI;
+using WebAPI.DTO;
 using WebAPI.Models;
 using WebAPI.Others.GlobalEnums;
 
@@ -12,21 +14,22 @@ namespace WebAPI.Services
         {
         }
 
-        public async Task<CreationResult> CreateNewOrder(Order order)
+        public async Task<CreationResult> CreateNewOrder(CreateOrderModel orderData)
         {
-            if (order.DogTrainingCenterId == null)
-                return CreationResult.IncorrectData;
-
-            bool isDogExists = await _context.Dogs.AnyAsync(e => e.Id == order.DogId);
-            bool isTrainingCenterExists = await _context.DogTrainingCenters.AnyAsync(e => e.Id == order.DogTrainingCenterId);
+            Order newOrder = new Order();
+            newOrder.Comment = orderData.Comment;
+            newOrder.DogId = orderData.DogId;
+            newOrder.DogTrainingCenterId = orderData.DogTrainingCenterId;
+            bool isDogExists = await _context.Dogs.AnyAsync(e => e.Id == orderData.DogId);
+            bool isTrainingCenterExists = await _context.DogTrainingCenters.AnyAsync(e => e.Id == orderData.DogTrainingCenterId);
             if (!isDogExists || !isTrainingCenterExists)
                 return CreationResult.IncorrectRefference;
-            if (order.OrderDate == null)
-                order.OrderDate = DateTime.Now;
-            order.IsPaid = false;
-            order.Approved = false;
-            order.IsCompleted = false;
-            _context.Orders.Add(order);
+            DateTime correctDate = DateTime.Now.AddHours(orderData.TimeOffset);
+            newOrder.OrderDate = correctDate;
+            newOrder.IsPaid = false;
+            newOrder.Approved = false;
+            newOrder.IsCompleted = false;
+            _context.Orders.Add(newOrder);
             return CreationResult.Success;
         }
 
@@ -40,19 +43,41 @@ namespace WebAPI.Services
             return DeletingResult.Success;
         }
 
-        public Task<ICollection<Order>> GetClientOrders(int clientId)
+        public async Task<ICollection<Order>> GetClientOrders(int clientId)
         {
-            throw new NotImplementedException();
+            var userOrders = await _context.Clients
+                .Where(u => u.Id == clientId)
+                .SelectMany(u => u.Dogs)
+                .SelectMany(d => d.Orders)
+                .ToListAsync();
+
+            return userOrders;
         }
 
-        public Task<ICollection<Order>> GetDogTrainingCenterOrder(int trainingCenterId)
+        public async Task<ICollection<Order>> GetDogTrainingCenterOrder(int trainingCenterId)
         {
-            throw new NotImplementedException();
+            var orders = await _context.Orders.Where(e => e.DogTrainingCenterId == trainingCenterId).ToListAsync();
+            return orders;
         }
 
-        public Task<ModifyResult> ModifyOrder(Order order)
+        public async Task<ModifyResult> ModifyOrder(Order order)
         {
-            throw new NotImplementedException();
+            var foundOrder = await _context.Orders.FindAsync(order.Id);
+            if (foundOrder == null)
+                return ModifyResult.IncorrectData;
+
+            foundOrder.OrderDate = order.OrderDate ?? foundOrder.OrderDate;
+            foundOrder.Price = order.Price ?? foundOrder.Price;
+            foundOrder.Currency = order.Currency ?? foundOrder.Currency;
+            foundOrder.IsPaid = order.IsPaid ?? foundOrder.IsPaid;
+            foundOrder.Approved = order.Approved ?? foundOrder.Approved;
+            foundOrder.IsCompleted = order.IsCompleted ?? foundOrder.IsCompleted;
+            foundOrder.Comment = order.Comment ?? foundOrder.Comment;
+            foundOrder.DogTrainingCenterId = order.DogTrainingCenterId ?? foundOrder.DogTrainingCenterId;
+            foundOrder.DogId = order.DogId ?? foundOrder.DogId;
+
+
+            return ModifyResult.Success;
         }
     }
 }

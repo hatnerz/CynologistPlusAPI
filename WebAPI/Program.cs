@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WebAPI.DataBase;
 using WebAPI.DI;
+using WebAPI.Helpers;
 using WebAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,8 +13,9 @@ builder.Services.AddDbContext<CynologistPlusContext>(options =>
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IHashService, HashService>();
-
-
+builder.Services.AddScoped<IDbControlService, DbControlService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddSingleton<ConfigurationHelper>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
