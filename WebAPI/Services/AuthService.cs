@@ -17,16 +17,16 @@ namespace WebAPI.Services
 
         public AuthService(CynologistPlusContext context, IHashService hashService) : base(context)
         {
-            this._hashService = hashService;
+            _hashService = hashService;
         }
 
         public string GenerateJwtToken(int userId, string login, string role)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = new byte[16];
-            using (var rng = RandomNumberGenerator.Create())
+            using (var randomGenerator = RandomNumberGenerator.Create())
             {
-                rng.GetBytes(key);
+                randomGenerator.GetBytes(key);
             }
             var tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -35,7 +35,7 @@ namespace WebAPI.Services
                     new Claim(ClaimTypes.Name, login),
                     new Claim("userId", $"{userId}"),
                     new Claim(ClaimTypes.Role, role)
-                    // Дополнительные утверждения (claims) о пользователе
+                    // You can add here additional claims about user if it is needed
                 }),
                 Expires = DateTime.UtcNow.AddDays(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

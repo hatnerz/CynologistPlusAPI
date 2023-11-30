@@ -9,6 +9,8 @@ namespace WebAPI.DI
 
         public Task<ModifyResult> UpdateDog(Dog dog);
 
+        public Task<DeletingResult> DeleteDog(int dogId);
+
         public Task<CreationResult> AddSkillToDog(DogSkill dogSkill);
 
         public Task<ModifyResult> ChangeDogSkillWithLog(DogSkill newDogSkill);

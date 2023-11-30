@@ -45,6 +45,10 @@ namespace WebAPI.Services
             if (trainingCenter == null)
                 return DeletingResult.ItemNotFound;
 
+            var trainingCenterAdress = _context.Adresses.Find(trainingCenterId);
+            if (trainingCenterAdress != null)
+                _context.Adresses.Remove(trainingCenterAdress);
+
             _context.DogTrainingCenters.Remove(trainingCenter);
             await _context.SaveChangesAsync();
             return DeletingResult.Success;
@@ -58,14 +62,14 @@ namespace WebAPI.Services
 
         public async Task<ICollection<DogTrainingCenter>> GetTrainingCenters()
         {
-            var trainingCenters = await _context.DogTrainingCenters.ToListAsync();
+            var trainingCenters = await _context.DogTrainingCenters.Include(e => e.Adress).ToListAsync();
             return trainingCenters;
         }
 
         public async Task<ICollection<DogTrainingCenter>> GetTrainingCentersWithFilters(Adress adressFilter)
         {
             // Base entity for for applying filters
-            var trainingCentersQuerable = _context.DogTrainingCenters.AsQueryable();
+            var trainingCentersQuerable = _context.DogTrainingCenters.Include(e => e.Adress).AsQueryable();
 
             if (adressFilter.Country != null && adressFilter.Country != "")
                 trainingCentersQuerable = trainingCentersQuerable

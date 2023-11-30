@@ -1,4 +1,5 @@
-﻿using WebAPI.DataBase;
+﻿using Microsoft.EntityFrameworkCore;
+using WebAPI.DataBase;
 using WebAPI.DI;
 using WebAPI.Models;
 using WebAPI.Others.GlobalEnums;
@@ -18,6 +19,7 @@ namespace WebAPI.Services
             foundSkill.MaxValue = skill.MaxValue;
             foundSkill.Name = skill.Name;
             foundSkill.Type = skill.Type;
+            foundSkill.MeasureUnit = skill.MeasureUnit;
             await _context.SaveChangesAsync();
             return ModifyResult.Success;
         }
@@ -47,6 +49,11 @@ namespace WebAPI.Services
             _context.Skills.Remove(foundSkill);
             await _context.SaveChangesAsync();
             return DeletingResult.Success;
+        }
+
+        public async Task<ICollection<Skill>> GetSkills()
+        {
+            return await _context.Skills.ToListAsync();
         }
     }
 }

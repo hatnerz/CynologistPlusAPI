@@ -3,6 +3,7 @@ using WebAPI.DataBase;
 using WebAPI.DI;
 using WebAPI.Models;
 using WebAPI.Others.GlobalEnums;
+using WebAPI.Services;
 
 namespace WebAPI.Services
 {
@@ -29,7 +30,11 @@ namespace WebAPI.Services
             var foundClient = _context.Clients.Find(id);
             if (foundClient == null)
                 return DeletingResult.ItemNotFound;
+            var foundCredentials = _context.AuthCredentials.Find(foundClient.AuthCredentialId);
+            if (foundCredentials == null)
+                return DeletingResult.ItemNotFound;
             _context.Clients.Remove(foundClient);
+            _context.AuthCredentials.Remove(foundCredentials);
             await _context.SaveChangesAsync();
             return DeletingResult.Success;
         }

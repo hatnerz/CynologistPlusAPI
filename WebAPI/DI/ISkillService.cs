@@ -8,6 +8,7 @@ namespace WebAPI.DI
         public Task<CreationResult> CreateSkill(Skill skill);
         public Task<ModifyResult> ChangeSkill(Skill skill);
         public Task<DeletingResult> DeleteSkill(int skillId);
+        public Task<ICollection<Skill>> GetSkills();
 
         public DogSkillsLog CreateDogSkillLogItem(DogSkill dogSkill);
     }

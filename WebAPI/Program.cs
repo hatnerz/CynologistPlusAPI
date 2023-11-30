@@ -7,21 +7,27 @@ using WebAPI.Services;
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
-// Add services to the container.
-builder.Services.AddDbContext<CynologistPlusContext>(options =>
-    options.UseSqlServer(configuration.GetConnectionString("default")));
-
+// Add services to the container (services dependency injection).
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IHashService, HashService>();
 builder.Services.AddScoped<IDbControlService, DbControlService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IDogService, DogService>();
+builder.Services.AddScoped<IClientService, ClientService>();
+builder.Services.AddScoped<ISkillService, SkillService>();
+builder.Services.AddScoped<ITrainingCenterService, TrainingCenterService>();
 builder.Services.AddSingleton<ConfigurationHelper>();
 
+// Configuring Entity Framework context
+builder.Services.AddDbContext<CynologistPlusContext>(options =>
+    options.UseSqlServer(configuration.GetConnectionString("default")));
+
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+// TODO: Configure CORS later during deployment
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", builder =>

@@ -3,15 +3,17 @@ using WebAPI.DI;
 using WebAPI.DTO;
 using WebAPI.Models;
 using WebAPI.Others.GlobalEnums;
+using WebAPI.Services;
 
 namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
-    public class SkillContoller : ControllerBase
+    [ApiController]
+    public class SkillController : ControllerBase
     {
         private readonly ISkillService _skillService;
 
-        public SkillContoller(ISkillService skillService)
+        public SkillController(ISkillService skillService)
         {
             _skillService = skillService;
         }
@@ -25,7 +27,7 @@ namespace WebAPI.Controllers
             return BadRequest();
         }
 
-        [HttpPatch]
+        [HttpPut]
         public async Task<IActionResult> ChangeSkill([FromBody] Skill dogSkill)
         {
             ModifyResult modifyResult = await _skillService.ChangeSkill(dogSkill);
@@ -36,7 +38,7 @@ namespace WebAPI.Controllers
             return BadRequest();
         }
 
-        [HttpDelete]
+        [HttpDelete("{skillId}")]
         public async Task<IActionResult> DeleteSkill(int skillId)
         {
             DeletingResult deletingResult = await _skillService.DeleteSkill(skillId);
@@ -45,6 +47,13 @@ namespace WebAPI.Controllers
             if (deletingResult == DeletingResult.ItemNotFound)
                 return BadRequest(new { message = "Skill not found" });
             return BadRequest();
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<List<Dog>>> GetSkills()
+        {
+            ICollection<Skill> skills = await _skillService.GetSkills();
+            return Ok(skills);
         }
 
     }

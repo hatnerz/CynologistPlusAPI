@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Hosting.Server;
-using WebAPI.DI;
+﻿using WebAPI.DI;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 using Microsoft.Data.SqlClient;
 using WebAPI.DataBase;
-using Microsoft.EntityFrameworkCore;
 using WebAPI.Helpers;
 
 namespace WebAPI.Services
@@ -69,7 +67,6 @@ namespace WebAPI.Services
                    lastBackupDate = command.ExecuteScalar() as DateTime?;
                 }
             }
-
             if (lastBackupDate.HasValue)
                 return lastBackupDate;
             else

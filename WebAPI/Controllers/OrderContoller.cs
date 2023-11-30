@@ -7,11 +7,12 @@ using WebAPI.Others.GlobalEnums;
 namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
-    public class OrderContoller : ControllerBase
+    [ApiController]
+    public class OrderController : ControllerBase
     {
         private readonly IOrderService _orderService;
 
-        public OrderContoller(IOrderService orderService)
+        public OrderController(IOrderService orderService)
         {
             _orderService = orderService;
         }

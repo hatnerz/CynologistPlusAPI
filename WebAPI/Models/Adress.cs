@@ -17,5 +17,5 @@ public partial class Adress
     public string? House { get; set; }
 
     [JsonIgnore]
-    public virtual DogTrainingCenter IdNavigation { get; set; } = null!;
+    public virtual DogTrainingCenter? IdNavigation { get; set; }
 }

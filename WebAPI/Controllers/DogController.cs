@@ -7,11 +7,12 @@ using WebAPI.Others.GlobalEnums;
 namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
-    public class DogContoller : ControllerBase
+    [ApiController]
+    public class DogController : ControllerBase
     {
         private readonly IDogService _dogService;
 
-        public DogContoller(IDogService dogService)
+        public DogController(IDogService dogService)
         {
             _dogService = dogService;
         }
@@ -53,7 +54,7 @@ namespace WebAPI.Controllers
             return BadRequest();
         }
 
-        [HttpPatch("skill")]
+        [HttpPatch]
         public async Task<IActionResult> UpdateDog(Dog dog)
         {
             ModifyResult result = await _dogService.UpdateDog(dog);
@@ -64,14 +65,25 @@ namespace WebAPI.Controllers
             return BadRequest();
         }
 
-        [HttpGet("client/{id}")]
+        [HttpDelete("{dogId}")]
+        public async Task<IActionResult> DeleteDog(int dogId)
+        {
+            DeletingResult deletingResult = await _dogService.DeleteDog(dogId);
+            if (deletingResult == DeletingResult.Success)
+                return Ok();
+            if (deletingResult == DeletingResult.ItemNotFound)
+                return NotFound(new { message = "Dog not found" });
+            return BadRequest();
+        }
+
+        [HttpGet("client/{clientId}")]
         public async Task<ActionResult<List<Dog>>> GetClientDogs(int clientId)
         {
             ICollection<Dog> clientDogs = await _dogService.GetClientDogs(clientId);
             return (List<Dog>)clientDogs;
         }
 
-        [HttpGet("skill/{id}")]
+        [HttpGet("skill/{dogId}")]
         public async Task<ActionResult<List<DogSkill>>> GetCurrentDogSkills(int dogId)
         {
             ICollection<DogSkill> dogSkills = await _dogService.GetCurrentDogSkills(dogId);
