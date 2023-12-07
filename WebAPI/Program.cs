@@ -7,6 +7,7 @@ using WebAPI.Services;
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
+
 // Add services to the container (services dependency injection).
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IHashService, HashService>();
@@ -16,6 +17,7 @@ builder.Services.AddScoped<IDogService, DogService>();
 builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<ISkillService, SkillService>();
 builder.Services.AddScoped<ITrainingCenterService, TrainingCenterService>();
+builder.Services.AddScoped<ITrainingService, TrainingService>();
 builder.Services.AddSingleton<ConfigurationHelper>();
 
 // Configuring Entity Framework context

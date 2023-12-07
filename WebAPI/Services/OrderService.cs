@@ -24,12 +24,14 @@ namespace WebAPI.Services
             bool isTrainingCenterExists = await _context.DogTrainingCenters.AnyAsync(e => e.Id == orderData.DogTrainingCenterId);
             if (!isDogExists || !isTrainingCenterExists)
                 return CreationResult.IncorrectRefference;
-            DateTime correctDate = DateTime.Now.AddHours(orderData.TimeOffset);
+            DateTime correctDate = DateTime.UtcNow;
             newOrder.OrderDate = correctDate;
+            newOrder.OrderDateTimeOffset = orderData.TimeOffset;
             newOrder.IsPaid = false;
             newOrder.Approved = false;
             newOrder.IsCompleted = false;
             _context.Orders.Add(newOrder);
+            await _context.SaveChangesAsync();
             return CreationResult.Success;
         }
 
@@ -67,6 +69,7 @@ namespace WebAPI.Services
                 return ModifyResult.IncorrectData;
 
             foundOrder.OrderDate = order.OrderDate ?? foundOrder.OrderDate;
+            foundOrder.OrderDateTimeOffset = order.OrderDateTimeOffset ?? foundOrder.OrderDateTimeOffset;
             foundOrder.Price = order.Price ?? foundOrder.Price;
             foundOrder.Currency = order.Currency ?? foundOrder.Currency;
             foundOrder.IsPaid = order.IsPaid ?? foundOrder.IsPaid;
@@ -76,7 +79,7 @@ namespace WebAPI.Services
             foundOrder.DogTrainingCenterId = order.DogTrainingCenterId ?? foundOrder.DogTrainingCenterId;
             foundOrder.DogId = order.DogId ?? foundOrder.DogId;
 
-
+            await _context.SaveChangesAsync();
             return ModifyResult.Success;
         }
     }

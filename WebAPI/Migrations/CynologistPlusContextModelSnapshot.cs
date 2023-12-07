@@ -327,6 +327,9 @@ namespace WebAPI.Migrations
                     b.Property<DateTime?>("OrderDate")
                         .HasColumnType("datetime");
 
+                    b.Property<int>("OrderDateTimeOffset")
+                        .HasColumnType("int");
+
                     b.Property<decimal?>("Price")
                         .HasColumnType("decimal(12, 2)");
 
