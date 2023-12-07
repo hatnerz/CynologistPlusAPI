@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace WebAPI.Models;
 
@@ -20,9 +19,7 @@ public partial class Training
 
     public string? Comment { get; set; }
 
-    [JsonIgnore]
     public virtual Cynologist? Cynologist { get; set; }
 
-    [JsonIgnore]
     public virtual Dog? Dog { get; set; }
 }

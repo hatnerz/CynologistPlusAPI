@@ -40,13 +40,13 @@ namespace WebAPI.Controllers
             return BadRequest();
         }
 
-        [HttpGet("client/{clientId}")]
+        [HttpGet("client/{id}")]
         public async Task<ICollection<Order>> GetClientOrders(int clientId)
         {
             return await _orderService.GetClientOrders(clientId);
         }
 
-        [HttpGet("training-center/{trainingCenterId}")]
+        [HttpGet("training-center/{id}")]
         public async Task<ICollection<Order>> GetTrainingCenterOrder(int trainingCenterId)
         {
             return await _orderService.GetDogTrainingCenterOrder(trainingCenterId);

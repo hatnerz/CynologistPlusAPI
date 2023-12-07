@@ -83,10 +83,7 @@ namespace WebAPI.Services
 
         public async Task<ICollection<DogSkillsLog>> GetDogSkillChange(int dogId, int skillId)
         {
-            var dogSkillsChange = await _context.DogSkillsLogs
-                .Where(e => e.DogId == dogId)
-                .Where(e => e.SkillId == skillId)
-                .OrderBy(e => e.ChangeDate).ToListAsync();
+            var dogSkillsChange = await _context.DogSkillsLogs.Where(e => e.DogId == dogId).OrderBy(e => e.ChangeDate).ToListAsync();
             return dogSkillsChange;
         }
 
