@@ -17,8 +17,10 @@ namespace WebAPI.DI
 
         public Task<ICollection<Dog>> GetClientDogs(int clientId);
 
-        public Task<ICollection<DogSkill>> GetCurrentDogSkills(int dogId);
+        public Task<ICollection<DogSkillOut>> GetCurrentDogSkills(int dogId);
 
         public Task<ICollection<DogSkillsLog>> GetDogSkillChange(int dogId, int skillId);
+
+        public Task<Dog?> GetDog(int id);
     }
 }

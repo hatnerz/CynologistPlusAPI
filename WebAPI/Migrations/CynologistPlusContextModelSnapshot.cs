@@ -37,7 +37,7 @@ namespace WebAPI.Migrations
 
                     b.HasIndex("AuthCredentialId");
 
-                    b.ToTable("Admins");
+                    b.ToTable("Admins", (string)null);
                 });
 
             modelBuilder.Entity("WebAPI.Models.Adress", b =>
@@ -64,7 +64,7 @@ namespace WebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Adresses");
+                    b.ToTable("Adresses", (string)null);
                 });
 
             modelBuilder.Entity("WebAPI.Models.AuthCredential", b =>
@@ -85,7 +85,7 @@ namespace WebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AuthCredentials");
+                    b.ToTable("AuthCredentials", (string)null);
                 });
 
             modelBuilder.Entity("WebAPI.Models.Client", b =>
@@ -119,7 +119,7 @@ namespace WebAPI.Migrations
 
                     b.HasIndex("AuthCredentialId");
 
-                    b.ToTable("Clients");
+                    b.ToTable("Clients", (string)null);
                 });
 
             modelBuilder.Entity("WebAPI.Models.Cynologist", b =>
@@ -158,7 +158,7 @@ namespace WebAPI.Migrations
 
                     b.HasIndex("DogTrainingCenterId");
 
-                    b.ToTable("Cynologists");
+                    b.ToTable("Cynologists", (string)null);
                 });
 
             modelBuilder.Entity("WebAPI.Models.Dog", b =>
@@ -184,7 +184,7 @@ namespace WebAPI.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("Dogs");
+                    b.ToTable("Dogs", (string)null);
                 });
 
             modelBuilder.Entity("WebAPI.Models.DogSkill", b =>
@@ -210,7 +210,7 @@ namespace WebAPI.Migrations
 
                     b.HasIndex("SkillId");
 
-                    b.ToTable("DogSkills");
+                    b.ToTable("DogSkills", (string)null);
                 });
 
             modelBuilder.Entity("WebAPI.Models.DogSkillsLog", b =>
@@ -239,7 +239,7 @@ namespace WebAPI.Migrations
 
                     b.HasIndex("SkillId");
 
-                    b.ToTable("DogSkillsLogs");
+                    b.ToTable("DogSkillsLogs", (string)null);
                 });
 
             modelBuilder.Entity("WebAPI.Models.DogTrainingCenter", b =>
@@ -259,7 +259,7 @@ namespace WebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DogTrainingCenters");
+                    b.ToTable("DogTrainingCenters", (string)null);
                 });
 
             modelBuilder.Entity("WebAPI.Models.Manager", b =>
@@ -290,7 +290,7 @@ namespace WebAPI.Migrations
 
                     b.HasIndex("DogTrainingCenterId");
 
-                    b.ToTable("Managers");
+                    b.ToTable("Managers", (string)null);
                 });
 
             modelBuilder.Entity("WebAPI.Models.Order", b =>
@@ -336,7 +336,7 @@ namespace WebAPI.Migrations
 
                     b.HasIndex("DogTrainingCenterId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("WebAPI.Models.Skill", b =>
@@ -363,7 +363,7 @@ namespace WebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Skills");
+                    b.ToTable("Skills", (string)null);
                 });
 
             modelBuilder.Entity("WebAPI.Models.Training", b =>
@@ -400,7 +400,7 @@ namespace WebAPI.Migrations
 
                     b.HasIndex("DogId");
 
-                    b.ToTable("Trainings");
+                    b.ToTable("Trainings", (string)null);
                 });
 
             modelBuilder.Entity("WebAPI.Models.Admin", b =>

@@ -84,10 +84,10 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("skill/{dogId}")]
-        public async Task<ActionResult<List<DogSkill>>> GetCurrentDogSkills(int dogId)
+        public async Task<ActionResult<List<DogSkillOut>>> GetCurrentDogSkills(int dogId)
         {
-            ICollection<DogSkill> dogSkills = await _dogService.GetCurrentDogSkills(dogId);
-            return (List<DogSkill>)dogSkills;
+            ICollection<DogSkillOut> dogSkills = await _dogService.GetCurrentDogSkills(dogId);
+            return (List<DogSkillOut>)dogSkills;
         }
 
         [HttpGet("skillchange/{dogId}/{skillId}")]
@@ -95,6 +95,16 @@ namespace WebAPI.Controllers
         {
             ICollection<DogSkillsLog> dogSkills = await _dogService.GetDogSkillChange(dogId, skillId);
             return (List<DogSkillsLog>)dogSkills;
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Dog>> GetDog(int id)
+        {
+            Dog? dog = await _dogService.GetDog(id);
+            if (dog == null)
+                return NotFound();
+            else
+                return dog;
         }
     }
 }

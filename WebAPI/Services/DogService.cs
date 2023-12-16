@@ -75,15 +75,32 @@ namespace WebAPI.Services
             return clientDogs;
         }
 
-        public async Task<ICollection<DogSkill>> GetCurrentDogSkills(int dogId)
+        public async Task<ICollection<DogSkillOut>> GetCurrentDogSkills(int dogId)
         {
-            var dogSkills = await _context.DogSkills.Where(e => e.DogId == dogId).ToListAsync();
-            return dogSkills;
+            var dogSkills = await _context.DogSkills.Where(e => e.DogId == dogId).Include(e => e.Skill).ToListAsync();
+            List <DogSkillOut> dogSkillsMapped = new List<DogSkillOut>();
+            foreach (var dogSkill in dogSkills)
+            {
+                DogSkillOut temp = new DogSkillOut();
+                temp.Id = dogSkill.Id;
+                temp.DogId = dogSkill.DogId;
+                temp.Skill = dogSkill.Skill;
+                temp.Value = dogSkill.Value;
+                dogSkillsMapped.Add(temp);
+
+            }
+            return dogSkillsMapped;
+        }
+
+        public async Task<Dog?> GetDog(int id)
+        {
+            var foundDog = await _context.Dogs.FindAsync(id);
+            return foundDog;
         }
 
         public async Task<ICollection<DogSkillsLog>> GetDogSkillChange(int dogId, int skillId)
         {
-            var dogSkillsChange = await _context.DogSkillsLogs.Where(e => e.DogId == dogId).OrderBy(e => e.ChangeDate).ToListAsync();
+            var dogSkillsChange = await _context.DogSkillsLogs.Where(e => e.DogId == dogId && e.SkillId == skillId).OrderBy(e => e.ChangeDate).ToListAsync();
             return dogSkillsChange;
         }
 

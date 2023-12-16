@@ -24,12 +24,13 @@ namespace WebAPI.Services
             bool isTrainingCenterExists = await _context.DogTrainingCenters.AnyAsync(e => e.Id == orderData.DogTrainingCenterId);
             if (!isDogExists || !isTrainingCenterExists)
                 return CreationResult.IncorrectRefference;
-            DateTime correctDate = DateTime.Now.AddHours(orderData.TimeOffset);
+            DateTime correctDate = DateTime.UtcNow;
             newOrder.OrderDate = correctDate;
             newOrder.IsPaid = false;
             newOrder.Approved = false;
             newOrder.IsCompleted = false;
             _context.Orders.Add(newOrder);
+            await _context.SaveChangesAsync();
             return CreationResult.Success;
         }
 
@@ -49,6 +50,8 @@ namespace WebAPI.Services
                 .Where(u => u.Id == clientId)
                 .SelectMany(u => u.Dogs)
                 .SelectMany(d => d.Orders)
+                .Include(e => e.DogTrainingCenter)
+                .Include(e => e.Dog)
                 .ToListAsync();
 
             return userOrders;

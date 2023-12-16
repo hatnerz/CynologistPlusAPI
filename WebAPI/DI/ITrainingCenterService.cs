@@ -21,5 +21,9 @@ namespace WebAPI.DI
         public Task<ICollection<DogTrainingCenter>> GetTrainingCentersWithFilters(Adress adressFilter);
 
         public Task<ICollection<Cynologist>> GetTrainingCenterCynologists(int trainingCenterId);
+
+        public Task<DogTrainingCenter?> GetTrainingCenter(int id);
+
+        public Task<DogTrainingCenter?> GetManagerTrainingCenter(int managerId);
     }
 }

@@ -14,8 +14,8 @@ public partial class Skill
 
     public double? MaxValue { get; set; }
 
-    public string? MeasureUnit { get; set; 
-    }
+    public string? MeasureUnit { get; set; }
+
     [JsonIgnore]
     public virtual ICollection<DogSkill> DogSkills { get; set; } = new List<DogSkill>();
 

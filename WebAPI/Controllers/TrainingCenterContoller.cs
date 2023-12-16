@@ -64,12 +64,30 @@ namespace WebAPI.Controllers
             return Ok(allTrainingCenters);
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<List<DogTrainingCenter>>> GetTrainingCenterById(int id)
+        {
+            DogTrainingCenter? dogTrainingCenter = await _trainingCenterService.GetTrainingCenter(id);
+            if (dogTrainingCenter == null)
+                return NotFound();
+            return Ok(dogTrainingCenter);
+        }
+
         [HttpPost("filter")]
         public async Task<ActionResult<List<DogTrainingCenter>>> GetTrainingCentersWithFilters([FromBody] Adress adressFilter)
         {
             ICollection<DogTrainingCenter> allTrainingCenters = await _trainingCenterService
                 .GetTrainingCentersWithFilters(adressFilter);
             return Ok(allTrainingCenters);
+        }
+
+        [HttpGet("manager/{managerId}")]
+        public async Task<ActionResult<DogTrainingCenter>> GetManagerTrainingCenter(int managerId)
+        {
+            DogTrainingCenter? dogTrainingCenter = await _trainingCenterService.GetManagerTrainingCenter(managerId);
+            if (dogTrainingCenter == null)
+                return NotFound();
+            return Ok(dogTrainingCenter);
         }
     }
 }

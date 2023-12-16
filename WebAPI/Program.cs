@@ -17,6 +17,7 @@ builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<ISkillService, SkillService>();
 builder.Services.AddScoped<ITrainingCenterService, TrainingCenterService>();
 builder.Services.AddSingleton<ConfigurationHelper>();
+builder.Services.AddScoped<IManagerService, ManagerService>();
 
 // Configuring Entity Framework context
 builder.Services.AddDbContext<CynologistPlusContext>(options =>

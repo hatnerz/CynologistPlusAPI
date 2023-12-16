@@ -54,6 +54,21 @@ namespace WebAPI.Services
             return DeletingResult.Success;
         }
 
+        public async Task<DogTrainingCenter?> GetManagerTrainingCenter(int managerId)
+        {
+            var foundManager = await _context.Managers.FindAsync(managerId);
+            if (foundManager == null || foundManager.DogTrainingCenterId == null)
+                return null;
+            var foundTrainingCenter = await _context.DogTrainingCenters.FindAsync(foundManager.DogTrainingCenterId);
+            return foundTrainingCenter;
+        }
+
+        public async Task<DogTrainingCenter?> GetTrainingCenter(int id)
+        {
+            var foundTrainingCenter = await _context.DogTrainingCenters.Include(e => e.Adress).FirstOrDefaultAsync(e => e.Id == id);
+            return foundTrainingCenter;
+        }
+
         public async Task<ICollection<Cynologist>> GetTrainingCenterCynologists(int trainingCenterId)
         {
             var cynologists = await _context.Cynologists.Where(e => e.DogTrainingCenterId == trainingCenterId).ToListAsync();
