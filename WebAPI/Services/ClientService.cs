@@ -44,5 +44,15 @@ namespace WebAPI.Services
             var foundClient = await _context.Clients.FindAsync(id);
             return foundClient;
         }
+
+        public async Task<Cynologist?> GetCynologist(int id)
+        {
+            var foundCynologist = await _context
+                .Cynologists
+                .Where(e => e.Id == id)
+                .Include(e => e.DogTrainingCenter)
+                .FirstOrDefaultAsync();
+            return foundCynologist;
+        }
     }
 }

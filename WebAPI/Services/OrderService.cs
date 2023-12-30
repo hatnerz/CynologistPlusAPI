@@ -59,7 +59,11 @@ namespace WebAPI.Services
 
         public async Task<ICollection<Order>> GetDogTrainingCenterOrder(int trainingCenterId)
         {
-            var orders = await _context.Orders.Where(e => e.DogTrainingCenterId == trainingCenterId).ToListAsync();
+            var orders = await _context.Orders
+                .Where(e => e.DogTrainingCenterId == trainingCenterId)
+                .Include(e => e.DogTrainingCenter)
+                .Include(e => e.Dog)
+                .ToListAsync();
             return orders;
         }
 
@@ -79,7 +83,7 @@ namespace WebAPI.Services
             foundOrder.DogTrainingCenterId = order.DogTrainingCenterId ?? foundOrder.DogTrainingCenterId;
             foundOrder.DogId = order.DogId ?? foundOrder.DogId;
 
-
+            await _context.SaveChangesAsync();
             return ModifyResult.Success;
         }
     }

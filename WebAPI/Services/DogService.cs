@@ -69,6 +69,12 @@ namespace WebAPI.Services
             return DeletingResult.Success;
         }
 
+        public async Task<ICollection<Dog>> GetAllDogs()
+        {
+            var foundDogs = await _context.Dogs.ToListAsync();
+            return foundDogs;
+        }
+
         public async Task<ICollection<Dog>> GetClientDogs(int clientId)
         {
             var clientDogs = await _context.Dogs.Where(e => e.ClientId == clientId).ToListAsync();

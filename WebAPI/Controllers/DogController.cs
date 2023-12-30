@@ -106,5 +106,12 @@ namespace WebAPI.Controllers
             else
                 return dog;
         }
+
+        [HttpGet]
+        public async Task<ActionResult<ICollection<Dog>>> GetAllDogs()
+        {
+            ICollection<Dog> foundDogs = await _dogService.GetAllDogs();
+            return (List<Dog>)foundDogs;
+        }
     }
 }

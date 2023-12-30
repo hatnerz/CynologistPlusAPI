@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace WebAPI.Models;
 
@@ -11,6 +12,7 @@ public partial class Cynologist
 
     public string? LastName { get; set; }
 
+    [JsonIgnore]
     public int? DogTrainingCenterId { get; set; }
 
     public int AuthCredentialId { get; set; }
@@ -19,9 +21,11 @@ public partial class Cynologist
 
     public string? Email { get; set; }
 
+    [JsonIgnore]
     public virtual AuthCredential AuthCredential { get; set; } = null!;
 
     public virtual DogTrainingCenter? DogTrainingCenter { get; set; }
 
+    [JsonIgnore]
     public virtual ICollection<Training> Training { get; set; } = new List<Training>();
 }

@@ -11,5 +11,7 @@ namespace WebAPI.DI
 
         public Task<ModifyResult> ChangeClientData(Client client);
 
+        public Task<Cynologist?> GetCynologist(int id);
+
     }
 }

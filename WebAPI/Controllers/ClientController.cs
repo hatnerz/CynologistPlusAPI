@@ -47,5 +47,14 @@ namespace WebAPI.Controllers
                 return NotFound(new { message = "Client not found" });
             return BadRequest();
         }
+
+        [HttpGet("cynologist/{id}")]
+        public async Task<ActionResult<Cynologist>> GetCynologist(int id)
+        {
+            Cynologist? result = await _clientService.GetCynologist(id);
+            if (result == null)
+                return NotFound();
+            return result;
+        }
     }
 }
